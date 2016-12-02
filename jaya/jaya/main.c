@@ -20,10 +20,17 @@ int main(int argc, const char * argv[])
     
     // Function
     initArray();
-    checkWeight(i);
+    checkWeight(0);
     
     // Print
-    //printArray();
+    printf("city\n");
+    printCity();
+    printf("\n\n");
+    
+    printf("array\n");
+    printArray();
+    printf("\n\n");
+    
     printf("count = %d\n", count);
     
     return 0;
@@ -102,38 +109,49 @@ void printArray()
     }
 }
 
+void printCity()
+{
+    int i;
+    
+    for(i = 0; i < ARR_LEN; i++)
+        printf("%4d ", city[i]);
+    printf("\n");
+}
+
 void checkWeight(int i)
 {
     // Value
-    static int weight[ARR_LEN];
-    int min = 9999;
+    int min = NUM_MAX;
     int j = 0;
     
     // Check city
     if(checkCity(i) == -1)
-        return;
-    
-    // Check
-    for(j = 0; j < ARR_LEN; j++)
     {
-        if(arr[i][j] < min)
-            min = arr[i][j];
+        return;
     }
     
+    // Roof
     for(j = 0; j < ARR_LEN; j++)
     {
-        weight[j] = 9999;
-        
-        if(arr[i][j] == min)
+        if(visit == 0)
         {
-            weight[j] = min;
-            
-            city[i] = 1;
-            count += min;
-            
-            checkWeight(j);
+            printf("count : %d\n", count);
+            printCity();
+            exit(5);
         }
         
+        
+        min = checkMin(i);
+        
+        //printf("i = %d, j = %d, min = %d\n", i, j, min);
+        
+        city[i] = 1;
+        visit--;
+        count += min;
+        
+        printf("city[%d] -> city[%d], visit = %d\n\n", i, j, visit);
+        //printCity();
+        checkWeight(j);
     }
 }
 
@@ -144,4 +162,32 @@ int checkCity(int n)
         return -1;
     
     return 1;
+}
+
+int checkMin(int i)
+{
+    // Value
+    int min = NUM_MAX;
+    int j;
+    
+    // Check
+    for(j = 0; j < ARR_LEN; j++)
+    {
+        if(arr[i][j] == 0)
+        {
+            city[j] = 1;
+            continue;
+        }
+        
+        if(arr[i][j] < min)
+        {
+            min = arr[i][j];
+            arr[i][j] = NUM_MAX;
+        }
+    }
+    
+    if(min == NUM_MAX)
+        return 0;
+    
+    return min;
 }

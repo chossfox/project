@@ -17,6 +17,7 @@
 // Define
 #define ARR_LEN 17
 #define BUF_LEN 100000
+#define NUM_MAX 9999
 
 // Value
 int arr[ARR_LEN][ARR_LEN];
@@ -28,5 +29,7 @@ int visit = ARR_LEN;
 // Function List
 void initArray();
 void printArray();
+void printCity();
 void checkWeight(int i);
 int checkCity(int n);
+int checkMin(int i);
